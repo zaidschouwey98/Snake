@@ -49,6 +49,7 @@ class Snake {
     this.iY = 1;
     this.childNode = new SnakeNode(this.posX,this.posY);
     this.iteration = 0;
+    this.way = [];
     
   }
   changeDirection(direction) {
@@ -79,36 +80,36 @@ class Snake {
   }
   move() {
      // case actuelle
-    if(this.randomWay == true){
-      if(gameArr[this.posX+1][this.posY] != 1)
-        this.posX ++;
-      if(gameArr[this.posX-1][this.posY] != 1)
-        this.posX --;
-      if(gameArr[this.posX][this.posY+1] != 1)
-        this.posY ++;
-      if(gameArr[this.posX][this.posY-1] != 1)
-        this.posY --;
-    }
+    
 
-    if(!this.way){
+    if(this.way.length < 1){
       astar.generateGrid();
       this.way = astar.search([this.posX,this.posY],FruitPosition)
-      if(!this.way){
+      if(this.way.length < 1){
         this.randomWay = true;
-      } else this.randomWay = false;
-      this.iteration = 0;
+      } else {
+        this.randomWay = false;
+        this.iteration = 0;
+      }
     }
     
     if(!this.randomWay){
-      try {
-        
       
       this.posX = this.way[this.iteration].location.y;
       this.posY = this.way[this.iteration].location.x;
       this.iteration++;
-    } catch (error) {
-        debugger;
-    }
+    
+    } else{
+      console.log("Aleatoire...")
+      if(gameArr[this.posX+1])
+        if(gameArr[this.posX+1][this.posY] != 1)
+          this.posX ++;
+      else if(gameArr[this.posX-1][this.posY] != 1)
+        this.posX --;
+      else if(gameArr[this.posX][this.posY+1] != 1)
+        this.posY ++;
+      else if(gameArr[this.posX][this.posY-1] != 1)
+        this.posY --;
     }
     
    
@@ -123,10 +124,11 @@ class Snake {
       astar.generateGrid();
 
       this.way = astar.search([this.posX,this.posY],FruitPosition)
-      if(!this.way){
+      if(this.way.length < 1){
         this.randomWay = true;
-      } else this.randomWay = false;
-      this.iteration = 0;
+      } else 
+      {this.randomWay = false;
+      this.iteration = 0;}
     }
     else if (gameArr[this.posY][this.posX] == 1)
       this.die();
