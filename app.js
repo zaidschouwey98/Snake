@@ -203,7 +203,7 @@ class AStar{
     while(openList.length > 0){
       let lowInd = 0;
       for(var i=0; i<openList.length; i++) {
-        if(openList[i].F < openList[lowInd].F) { lowInd = i; }
+        if(openList[i].F > openList[lowInd].F) { lowInd = i; }
       }
     
       let currentNode = openList[lowInd];
@@ -282,43 +282,43 @@ class AStar{
   getNodeWeight(node){
     var x = node.location.x;
     var y = node.location.y;
-    var weight = 1;
+    var weight = 5;
     if(this.nodesArr[x-1] && this.nodesArr[x-1][y]) {
       if(!this.nodesArr[x-1][y].isWalkable)
-        weight = 3;
-    } else weight = 3;
+        weight = 1;
+    } else weight = 1;
     if(this.nodesArr[x+1] && this.nodesArr[x+1][y]) {
       if(!this.nodesArr[x+1][y].isWalkable)
-        weight = 3;
-    } else weight = 3;
+        weight = 1;
+    } else weight = 1;
     if(this.nodesArr[x][y-1] && this.nodesArr[x][y-1]) {
       if(!this.nodesArr[x][y-1].isWalkable)
-        weight = 3;
+        weight = 1;
     }
     if(this.nodesArr[x][y+1] && this.nodesArr[x][y+1]) {
       if(!this.nodesArr[x][y+1].isWalkable)
-        weight = 3;
-    } else weight = 3;
+        weight = 1;
+    } else weight = 1;
     try {
       if(this.nodesArr[x-1] && this.nodesArr[x-1][y-1]) {
         if(!this.nodesArr[x-1][y-1].isWalkable)
-          weight = 3;
-      } else weight = 3;
+          weight = 1;
+      } else weight = 1;
   
       if(this.nodesArr[x+1] && this.nodesArr[x+1][y+1]) {
         if(!this.nodesArr[x+1][y+1].isWalkable)
-          weight = 3;
-      } else weight = 3;
+          weight = 1;
+      } else weight = 1;
 
       if(this.nodesArr[x][y-1] && this.nodesArr[x+1][y-1]) {
         if(!this.nodesArr[x+1][y-1].isWalkable)
-          weight = 3;
-      } else weight = 3;
+          weight = 1;
+      } else weight = 1;
 
       if(this.nodesArr[x][y+1] && this.nodesArr[x-1][y+1]) {
         if(!this.nodesArr[x-1][y+1].isWalkable)
-          weight = 3;
-      } else weight = 3;
+          weight = 1;
+      } else weight = 1;
     } catch (error) {
         
     }
@@ -342,8 +342,11 @@ class Node{
 }
 var astar = new AStar();
 
-
-
+var timer = 100;
+function speeeeeedup(){
+  console.log(timer)
+  timer = timer - 9;
+}
 
 function generateFruit() {
   
@@ -379,7 +382,7 @@ function make_base()
 }
 
 let pause = false;
-document.addEventListener("click",()=> pause ? pause = false : pause=true)
+
 
 document.addEventListener("keydown", (event) => snk.changeDirection(event.keyCode));
 
@@ -388,7 +391,7 @@ generateFruit();
 setInterval(function () {
   if(!pause)
     render();
-}, 5);
+}, timer);
 
 function render() {
   snk.move();
